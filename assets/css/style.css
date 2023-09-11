@@ -1603,6 +1603,12 @@ section {
   border: 1px solid #e0e5e2;
 }
 
+#footer .footer-newsletter form input[type=text] {
+  border: 0;
+  padding: 4px 8px;
+  width: calc(100% - 100px);
+}
+
 #footer .footer-newsletter form input[type=email] {
   border: 0;
   padding: 4px 8px;
