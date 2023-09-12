@@ -402,49 +402,49 @@
   <script src="assets/js/main.js"></script>
 
   <!-- news letter success form -->
-  <script>
-    document.getElementById("newsletter-form").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent the form from submitting traditionally
-    
-        // Get input values
-        var name = document.getElementById("name-input").value;
-        var email = document.getElementById("email-input").value;
-    
-        // Create a JSON object with the form data
-        var formData = {
-            name: name,
-            email: email
-        };
-    
-        // Send the JSON data to the Google Apps Script URL using a POST request
-        fetch("https://script.google.com/macros/s/AKfycby-hbHrPftG8McKNvkvLL6I-YP9nV9RdoYoEpI-Q9eR/dev", {
-            method: "post",
+    <script>
+        document.getElementById("newsletter-form").addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent the form from submitting traditionally
+      
+          // Get input values
+          var name = document.getElementById("name-input").value;
+          var email = document.getElementById("email-input").value;
+      
+          // Create a JSON object with the form data
+          var formData = {
+              name: name,
+              email: email
+          };
+      
+          // Send the JSON data to the Google Apps Script URL using a POST request
+          fetch("https://script.google.com/macros/s/AKfycby-hbHrPftG8McKNvkvLL6I-YP9nV9RdoYoEpI-Q9eR/dev", {
+            method: "post", // Use "post" for POST requests
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(formData)
         })
-        .then(function (response) {
-            return response.text(); // Parse the response as text
-        })
-        .then(function (data) {
-            // Display the success message or handle errors
-            if (data === "Success") {
-                document.getElementById("subscription-status").textContent = "Subscription successful!";
-            } else {
-                document.getElementById("subscription-status").textContent = "An error occurred. Please try again later.";
-            }
-        })
-        .catch(function (error) {
-            console.error("Error:", error);
-            document.getElementById("subscription-status").textContent = "An error occurred. Please try again later.";
-        });
-    
-        // Clear the form fields
-        document.getElementById("name-input").value = "";
-        document.getElementById("email-input").value = "";
-    });
-    </script>
+          .then(function (response) {
+              return response.json(); // Parse the response as JSON
+          })
+          .then(function (data) {
+              // Display the success message or handle errors
+              if (data.status === "Success") {
+                  document.getElementById("subscription-status").textContent = data.message;
+              } else {
+                  document.getElementById("subscription-status").textContent = data.message;
+              }
+          })
+          .catch(function (error) {
+              console.error("Error:", error);
+              document.getElementById("subscription-status").textContent = "An error occurred. Please try again later.";
+          });
+      
+          // Clear the form fields
+          document.getElementById("name-input").value = "";
+          document.getElementById("email-input").value = "";
+      }); 
+  </script>
 </body>
 
 </html>
