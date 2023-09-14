@@ -110,7 +110,7 @@
 
           <div class="col-lg-8 mt-5 mt-lg-0">
 
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form onsubmit="sendEmail(); reset(); return false;" role="form" class="php-email-form">
               <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -123,7 +123,7 @@
                 <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
               </div>
               <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                <textarea class="form-control" name="message" id="message" rows="5" placeholder="Message" required></textarea>
               </div>
               <div class="my-3">
                 <div class="loading">Loading</div>
@@ -227,8 +227,39 @@
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <!-- <script src="assets/vendor/php-email-form/validate.js"></script> -->
 
+  <!-- smtp js.com -->
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+  <!-- function to send email -->
+  <script>
+    function sendEmail() {
+      const email = document.getElementById("email").value;
+      const name = document.getElementById("name").value;
+      const subject = document.getElementById("subject").value;
+      const message = document.getElementById("message").value;
+    
+      Email.send({
+        Host: "smtp.elasticemail.com",
+        Username: "mutungiambrozio212@gmail.com", // Replace with your SMTP username
+        Password: "67308939F396C7C42779372DC725224A8163", // Replace with your SMTP password
+        To: 'lovisambrose212@gmail.com',
+        From: email,
+        Name: name,
+        Subject: subject,
+        Body: message
+      }).then(
+        message => {
+          if (message === "OK") {
+            alert("Message sent successfully");
+          } else {
+            alert("Message failed to send. Please try again later.");
+          }
+        }
+      );
+    }
+    
+  </script>
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
