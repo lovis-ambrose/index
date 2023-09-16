@@ -110,7 +110,7 @@
 
           <div class="col-lg-8 mt-5 mt-lg-0">
 
-            <form action="https://formspree.io/f/mvojqada" role="form" class="php-email-form" method="post">
+            <form action="https://formspree.io/f/xdorddka" role="form" class="php-email-form" method="post">
               <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="Name" class="form-control" id="name" placeholder="Your Name" required>
@@ -158,9 +158,9 @@
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="about.html">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="services.html">Services</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
             </ul>
@@ -169,21 +169,24 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Our Services</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Real Estate Management</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Property Development</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Property Valuation</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Property Marketing</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Propery Development Planning</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Land and Quantity Surveying</a></li>
+              <li><i class="bx bx-chevron-right"></i>Real Estate Management</li>
+              <li><i class="bx bx-chevron-right"></i> Property Development</li>
+              <li><i class="bx bx-chevron-right"></i> Property Valuation</li>
+              <li><i class="bx bx-chevron-right"></i> Property Marketing</li>
+              <li><i class="bx bx-chevron-right"></i> Propery Development Planning</li>
+              <li><i class="bx bx-chevron-right"></i> Land and Quantity Surveying</li>
             </ul>
           </div>
 
           <div class="col-lg-4 col-md-6 footer-newsletter">
             <h4>Join Our Newsletter</h4>
             <p>Subscribe so you stay in the loop. You can unsubscribe anytime you wish</p>
-            <form action="" method="post">
-              <input type="email" name="email" placeholder="email@example.com"><input type="submit" value="Subscribe">
+            <form id="subscription-form" action="https://script.google.com/macros/s/AKfycbxvR7x6Zht3k73g4GCZgbmJhkqTJRTJ2SAUdSL1X89X7Q0o5ji0LAfJIORCHuqx8dMYLg/exec" method="post">
+              <input type="text" name="name" id="name" placeholder="enter your name" required>
+              <input type="email" name="email" id="email" placeholder="email@example.com" required>
+              <input type="submit" value="Subscribe">
             </form>
+            <div id="subscription-message" class="subscription-message"></div>            
           </div>
 
         </div>
@@ -206,9 +209,9 @@
       </div>
       <div class="social-links text-center text-md-right pt-3 pt-md-0">
         <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-whatsapp"></i></a>
+        <a href="#" class="instagram"><i class="bx bxs-phone"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxs-envelope"></i></a>
         <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
       </div>
     </div>
@@ -222,17 +225,61 @@
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <!-- <script src="assets/vendor/php-email-form/validate.js"></script> -->
-  
-  <!-- script to clear the form -->
+
+  <!-- Ajax to handle subscriptions. -->
   <script>
-    function clearForm() {
-      // Clear the form fields
-      document.getElementById("name").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("subject").value = "";
-      document.getElementById("message").value = "";
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+      var form = document.getElementById('subscription-form');
+      var messageContainer = document.getElementById('subscription-message');
+    
+      form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+    
+        // Serialize form data into a URL-encoded string
+        var formData = new FormData(form);
+    
+        // Send an AJAX request to the Google Apps Script
+        fetch('https://script.google.com/macros/s/AKfycbxvR7x6Zht3k73g4GCZgbmJhkqTJRTJ2SAUdSL1X89X7Q0o5ji0LAfJIORCHuqx8dMYLg/exec', {
+          method: 'POST',
+          body: formData
+        })
+        .then(function (response) {
+          if (response.ok) {
+            return response.text();
+          } else {
+            throw new Error('Submission failed.');
+          }
+        })
+        .then(function (data) {
+          if (data === 'Email already subscribed.') {
+            messageContainer.textContent = data;
+            messageContainer.classList.remove('success');
+            messageContainer.classList.add('error');
+          } else {
+            messageContainer.textContent = 'Subscription successful!';
+            messageContainer.classList.remove('error');
+            messageContainer.classList.add('success');
+            resetForm(form);
+            // Hide the success message after 3 seconds
+            setTimeout(function () {
+              messageContainer.textContent = '';
+              messageContainer.classList.remove('success');
+            }, 3000);
+          }
+        })
+        .catch(function (error) {
+          console.error(error);
+          messageContainer.textContent = 'An error occurred. Please try again later.';
+          messageContainer.classList.remove('success');
+          messageContainer.classList.add('error');
+        });
+      });
+    
+      function resetForm(form) {
+        form.reset(); // Reset the form fields to their initial state
+      }
+    });
+      
   </script>
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>

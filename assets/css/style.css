@@ -1794,3 +1794,16 @@ section {
   color: #fff;
   text-decoration: none;
 }
+#footer .subscription-message {
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
