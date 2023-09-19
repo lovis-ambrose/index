@@ -110,7 +110,7 @@
 
           <div class="col-lg-8 mt-5 mt-lg-0">
 
-            <form action="https://formspree.io/f/xdorddka" role="form" class="php-email-form" method="post">
+            <form action="https://formspree.io/f/xdorddka" role="form" class="php-email-form" method="post" id="form">
               <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="Name" class="form-control" id="name" placeholder="Your Name" required>
@@ -279,6 +279,13 @@
         form.reset(); // Reset the form fields to their initial state
       }
     });
+
+    // clear the form after send
+    window.onbeforeunload = () => {
+      for(const form of document.getElementsByTagName('form')) {
+        form.reset();
+      }
+    }
       
   </script>
   <!-- Template Main JS File -->
