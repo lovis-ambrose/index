@@ -9,6 +9,10 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
+  <!-- custom reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
   <!-- logo -->
   <link href="assets/img/logg.png" rel="icon">
 
@@ -110,7 +114,7 @@
 
           <div class="col-lg-8 mt-5 mt-lg-0">
 
-            <form action="https://formspree.io/f/xdorddka" role="form" class="php-email-form" method="post" id="form">
+            <form action="https://formspree.io/f/xdorddka" role="form" class="php-email-form" method="post" id="contact-form">
               <div class="row">
                 <div class="col-md-6 form-group">
                   <input type="text" name="Name" class="form-control" id="name" placeholder="Your Name" required>
@@ -125,7 +129,13 @@
               <div class="form-group mt-3">
                 <textarea class="form-control" name="Message" id="message" rows="5" placeholder="Message" required></textarea>
               </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+
+              <div class="text-center">
+                <!-- google custom reCAPTCHA -->
+                <div class="g-recaptcha" data-sitekey="6Lfssn4oAAAAAI0BRTzZMFW6SiEbmxRV0pgKTKIx"></div>
+                <p id="status-message"></p>
+                <button type="submit" id="submit-button">Send Message</button>
+              </div>
             </form>
 
           </div>
@@ -287,6 +297,55 @@
       }
     }
       
+  </script>
+
+  <!-- script to handle form submissions -->
+  <!-- script to clear form when message is sent -->
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent the form from submitting traditionally
+
+        // Get form data
+        const formData = new FormData(this);
+
+        // Reference to the status message element
+        const statusMessage = document.getElementById('status-message');
+
+        // Submit the form data using Formspree's AJAX submission
+        fetch(this.action, {
+            method: this.method,
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Check if the form submission was successful
+            if (data.ok) {
+                // Reset the form
+                this.reset();
+                statusMessage.textContent = 'Message sent successfully!';
+                statusMessage.style.color = 'green';
+
+                // Automatically hide the success message after 3 seconds
+                setTimeout(function () {
+                    statusMessage.textContent = '';
+                }, 3000);
+            } else {
+                statusMessage.textContent = 'Message failed to send. Fill all fields and check reCAPTCHA.';
+                statusMessage.style.color = 'red';
+
+                // Automatically hide the success message after 3 seconds
+                setTimeout(function () {
+                  statusMessage.textContent = '';
+              }, 3000);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
   </script>
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
