@@ -834,6 +834,7 @@ section {
 
 .cta p {
   color: #fff;
+  font-weight: 700;
 }
 
 .cta .cta-btn {
@@ -915,10 +916,35 @@ section {
 # services
 --------------------------------------------------------------*/
 .courses .course-item {
+  position: relative;
   border-radius: 5px;
   border: 1px solid #eef0ef;
 }
 
+.courses .image-wrapper {
+  position: relative;
+  width: 100%;
+}
+.courses .image-wrapper img {
+  width: 100%;
+  display: block;
+}
+
+.courses .gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(40, 58, 90, 0.9), rgba(40, 58, 90, 0.9));
+  opacity: 0.5;
+  transition: 0.5s ease, opacity 0.5s ease;
+}
+
+.courses .gradient-overlay:hover {
+  background: none;
+  opacity: 0;
+}
 .courses .course-content {
   padding: 15px;
 }
